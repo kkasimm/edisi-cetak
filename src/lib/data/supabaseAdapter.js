@@ -14,7 +14,8 @@ async function request(path, options = {}) {
     headers: { ...headers, ...options.headers },
   })
   if (!res.ok) throw new Error(`Supabase ${res.status}`)
-  return res.status === 204 ? null : res.json()
+  const text = await res.text()
+  return text ? JSON.parse(text) : null
 }
 
 export const supabaseAdapter = {
